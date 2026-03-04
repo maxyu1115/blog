@@ -1,0 +1,102 @@
+theme: jekyll-theme-chirpy
+
+lang: en
+timezone: America/New_York
+
+title: waxhn
+tagline: A personal blog
+description: >-
+  Personal blog and website.
+
+url: "https://waxhn.com"
+
+github:
+  username: maxyu1115
+
+social:
+  name: maxyu1115
+  email: # your email here
+  links:
+    - https://github.com/maxyu1115
+
+# Theme mode: leave empty to follow browser preference, or set to [light | dark]
+theme_mode:
+
+img_cdn: ""
+avatar: ""
+
+toc: true
+
+math: true
+
+comments:
+  provider: # [disqus | utterances | giscus] — leave blank to disable
+
+paginate: 10
+
+# ---------------------------------------------------------------
+# Do not modify below unless you know what you are doing
+# ---------------------------------------------------------------
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _tabs
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - "*.config.js"
+  - package*.json
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
