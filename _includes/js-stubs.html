@@ -1,0 +1,15 @@
+<!--
+  Inert stand-ins for theme elements this layout dropped (sidebar, topbar, search,
+  back-to-top). Chirpy's JS looks these up on page load without null checks, and one
+  missing element aborts the rest of its setup (tooltips, TOC, image popups, ...).
+-->
+<div hidden>
+  <div id="sidebar"></div>
+  <div id="mask"></div>
+  <button id="sidebar-trigger" type="button" tabindex="-1"></button>
+  <div id="topbar-title"></div>
+  <button id="search-trigger" type="button" tabindex="-1"></button>
+  <search id="search"><input id="search-input" type="search" tabindex="-1" aria-hidden="true"></search>
+  <button id="search-cancel" type="button" tabindex="-1"></button>
+  <button id="back-to-top" type="button" tabindex="-1"></button>
+</div>
