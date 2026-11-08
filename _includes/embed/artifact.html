@@ -1,0 +1,59 @@
+<div class="artifact-embed">
+<iframe src="{{ include.src }}" title="{{ include.title }}" loading="lazy"></iframe>
+<p class="artifact-embed-link"><em>{% if include.caption %}{{ include.caption }} {% endif %}Interactive. <a href="{{ include.src }}" target="_blank" rel="noopener">Open it as a full page</a>.</em></p>
+</div>
+<style>
+.artifact-embed { margin: 1rem 0; }
+.artifact-embed iframe { display: block; width: 100%; height: 1600px; border: 0; }
+.artifact-embed-link { text-align: center; font-size: 80%; color: #6d6c6c; margin-top: 0.5rem; }
+.artifact-embed-link em { font-style: normal; }
+@media print { .artifact-embed iframe { display: none; } }
+</style>
+<script>
+(() => {
+  /* Same-origin page: drop its own header, follow Chirpy's light/dark toggle, fit the height to its content,
+     and float its switch bar at the top of the window while the page is in view (as sticky does standalone).
+     Use only block comments here: production builds collapse this script onto one line. */
+  const CSS = 'header{display:none} .wrap{max-width:none;padding:0 0 4px} body{background:transparent}' +
+    ' .bar{position:relative;margin:0;padding:10px 0;background:none;backdrop-filter:none;border-bottom-color:transparent}' +
+    ' .bar.afloat{background:var(--float-bg);border-bottom-color:var(--hair);box-shadow:0 8px 12px -12px rgb(0 0 0/.4)}';
+  const init = (f) => {
+    const d = f.contentDocument;
+    if (!d || !d.body || f.dataset.ready) return;
+    f.dataset.ready = '1';
+    const st = d.createElement('style');
+    st.textContent = CSS;
+    d.head.appendChild(st);
+    const html = document.documentElement, root = d.documentElement;
+    const sync = () => {
+      const m = html.getAttribute('data-mode');
+      if (m) root.setAttribute('data-theme', m); else root.removeAttribute('data-theme');
+      root.style.setProperty('--float-bg', getComputedStyle(document.body).backgroundColor);
+    };
+    sync();
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['data-mode'] });
+    const fit = () => { f.style.height = Math.ceil(d.body.getBoundingClientRect().height) + 'px'; };
+    new ResizeObserver(fit).observe(d.body);
+    fit();
+    const bar = d.querySelector('.bar');
+    if (!bar) return;
+    const float = () => {
+      /* Below Chirpy's sticky TOC bar when it shows. A bar wrapped onto many rows (phones) stays put. */
+      const toc = document.getElementById('toc-bar');
+      const top = toc && toc.offsetParent && !toc.classList.contains('invisible') ? Math.max(0, toc.getBoundingClientRect().bottom) : 0;
+      const room = f.getBoundingClientRect().height - bar.offsetTop - bar.offsetHeight;
+      const dy = bar.offsetHeight <= Math.min(130, innerHeight / 5) ? Math.min(Math.max(top - f.getBoundingClientRect().top - bar.offsetTop, 0), Math.max(room, 0)) : 0;
+      bar.style.transform = dy ? `translateY(${dy}px)` : '';
+      bar.classList.toggle('afloat', dy > 0);
+    };
+    addEventListener('scroll', float, { passive: true });
+    addEventListener('resize', float);
+    new ResizeObserver(float).observe(d.body);
+    float();
+  };
+  document.querySelectorAll('.artifact-embed iframe').forEach((f) => {
+    f.addEventListener('load', () => init(f));
+    if (f.contentDocument && f.contentDocument.readyState === 'complete' && f.contentDocument.URL !== 'about:blank') init(f);
+  });
+})();
+</script>

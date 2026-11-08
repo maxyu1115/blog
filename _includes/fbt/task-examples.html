@@ -1,0 +1,89 @@
+<div class="task-examples">
+<div class="tx-tabs" role="tablist" aria-label="Example chat for each task"><button type="button" role="tab" id="tx-tab-cups" aria-controls="tx-cups" aria-selected="true" tabindex="0">Cups</button><button type="button" role="tab" id="tx-tab-dataflow" aria-controls="tx-dataflow" aria-selected="false" tabindex="-1">Dataflow</button><button type="button" role="tab" id="tx-tab-turtle" aria-controls="tx-turtle" aria-selected="false" tabindex="-1">Turtle</button><button type="button" role="tab" id="tx-tab-calendar" aria-controls="tx-calendar" aria-selected="false" tabindex="-1">Calendar</button><button type="button" role="tab" id="tx-tab-arithmetic" aria-controls="tx-arithmetic" aria-selected="false" tabindex="-1">Arithmetic</button></div>
+<div class="tx-panels"><div class="tx-panel tx-on" role="tabpanel" id="tx-cups" aria-labelledby="tx-tab-cups" data-label="Cups"><div class="tx-cols"><div class="tx-col"><div class="tx-head">Prompt</div><pre class="tx-chat">ball2
+342525231535</pre></div><div class="tx-col"><div class="tx-head">Completion</div><pre class="tx-chat">34
+25
+25<span class="tx-w">&gt;2</span>
+23
+15
+35<span class="tx-w">&gt;5</span>
+=5</pre></div></div><p class="tx-note">The completion restates one swap per line. <code>25&gt;2</code> writes the state, saying the ball is under cup 2 after this swap, while lines like <code>23</code> leave it out. <code>=5</code> is the answer.</p></div><div class="tx-panel" role="tabpanel" id="tx-dataflow" aria-labelledby="tx-tab-dataflow" data-label="Dataflow"><div class="tx-cols"><div class="tx-col"><div class="tx-head">Prompt</div><pre class="tx-chat">a=8 b=9 c=80 d=68
+b=a-b
+d=d+b
+d=d-50
+c=d-c
+d=d+c</pre></div><div class="tx-col"><div class="tx-head">Completion</div><pre class="tx-chat">b<span class="tx-w">&gt;99</span>
+d<span class="tx-w">&gt;67</span>
+d
+c<span class="tx-w">&gt;37</span>
+d
+=8 99 37 54</pre></div></div><p class="tx-note">Four registers start at the values on the first line, and each statement updates one, mod 100. Each completion line names the register a statement assigns and may write its new value, as in <code>b&gt;99</code>. The answer lists a, b, c and d.</p></div><div class="tx-panel" role="tabpanel" id="tx-turtle" aria-labelledby="tx-tab-turtle" data-label="Turtle"><div class="tx-cols"><div class="tx-col"><div class="tx-head">Prompt</div><pre class="tx-chat">64W
+1
+L
+3
+R
+L
+1</pre></div><div class="tx-col"><div class="tx-head">Completion</div><pre class="tx-chat">1
+L
+3<span class="tx-w">&gt;51</span>
+R<span class="tx-w">&gt;W</span>
+L<span class="tx-w">&gt;S</span>
+1<span class="tx-w">&gt;50</span>
+=50</pre></div></div><p class="tx-note">The turtle starts at x = 6, y = 4, facing west (<code>64W</code>), on a 10 × 10 torus. A digit steps forward that many cells, and <code>L</code> and <code>R</code> turn. The completion may write the position after a step (<code>3&gt;51</code>) or the direction after a turn (<code>R&gt;W</code>). The answer is the last position.</p></div><div class="tx-panel" role="tabpanel" id="tx-calendar" aria-labelledby="tx-tab-calendar" data-label="Calendar"><div class="tx-cols"><div class="tx-col"><div class="tx-head">Prompt</div><pre class="tx-chat">Nov7
++21+25-2+4</pre></div><div class="tx-col"><div class="tx-head">Completion</div><pre class="tx-chat">+21<span class="tx-w">&gt;Nov28</span>
++25
+-2
++4<span class="tx-w">&gt;Dec25</span>
+=Dec25</pre></div></div><p class="tx-note"><code>Nov7</code> is November 7, followed by shifts in days. The completion may write the date after a shift, as in <code>+21&gt;Nov28</code>. The answer is the last date.</p></div><div class="tx-panel" role="tabpanel" id="tx-arithmetic" aria-labelledby="tx-tab-arithmetic" data-label="Arithmetic"><div class="tx-cols"><div class="tx-col"><div class="tx-head">Prompt</div><pre class="tx-chat">45*(28*33)-94</pre></div><div class="tx-col"><div class="tx-head">Completion</div><pre class="tx-chat"><span class="tx-w">=45*24-94</span>
+<span class="tx-w">=80-94</span>
+<span class="tx-w">=86</span></pre></div></div><p class="tx-note">Each line evaluates one operator mod 100 and rewrites the rest of the expression, so every line holds the whole state. The last line is the answer.</p></div></div>
+</div>
+<style>
+.task-examples { margin: 1.25rem 0 1.5rem; }
+.tx-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.6rem; }
+.tx-tabs button { font: inherit; font-size: 0.9rem; font-weight: 600; line-height: 1.4; color: var(--task-color);
+  background: var(--task-bg); border: 1px solid transparent; border-radius: 0.4em; padding: 0.15em 0.6em; cursor: pointer; }
+.tx-tabs button[aria-selected="true"] { color: var(--main-bg); background: var(--task-color); }
+.tx-tabs button:focus-visible { outline: 2px solid var(--task-color); outline-offset: 2px; }
+.tx-panel { display: none; }
+.tx-panel.tx-on { display: block; }
+.tx-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+.tx-col { display: flex; flex-direction: column; }
+.tx-head { font-size: 0.8rem; font-weight: 600; color: var(--text-muted-color); margin: 0 0 0.2rem 0.2rem; }
+.tx-chat { flex: 1; margin: 0; padding: 0.7rem 0.9rem; border-radius: 0.5rem; background: var(--highlight-bg-color);
+  font-size: 0.85rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text-color); }
+.tx-chat .tx-dim { color: var(--text-muted-color); font-style: italic; }
+.tx-chat .tx-w { color: var(--task-color); font-weight: 700; }
+.tx-note { margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--text-muted-color); }
+@media print {
+  .tx-tabs { display: none; }
+  .tx-panel { display: block; margin-bottom: 0.8rem; break-inside: avoid; }
+  .tx-panel::before { content: attr(data-label); font-weight: 700; }
+}
+</style>
+<script>
+(() => {
+  document.querySelectorAll('.task-examples').forEach((box) => {
+    const tabs = [...box.querySelectorAll('[role="tab"]')];
+    const show = (t) => {
+      tabs.forEach((b) => {
+        const on = b === t;
+        b.setAttribute('aria-selected', on);
+        b.tabIndex = on ? 0 : -1;
+        box.querySelector('#' + b.getAttribute('aria-controls')).classList.toggle('tx-on', on);
+      });
+    };
+    tabs.forEach((b, i) => {
+      b.addEventListener('click', () => show(b));
+      b.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        const n = tabs[(i + d + tabs.length) % tabs.length];
+        show(n);
+        n.focus();
+        e.preventDefault();
+      });
+    });
+  });
+})();
+</script>

@@ -105,3 +105,42 @@
     color: var(--text-muted-color);
   }
 }
+
+/* Task names in posts, written as *Name*{:.task} */
+html {
+  --task-color: #6d28d9;
+  --task-bg: rgb(109 40 217 / 8%);
+
+  @media (prefers-color-scheme: light) {
+    &[data-mode='dark'] {
+      --task-color: #c4b5fd;
+      --task-bg: rgb(196 181 253 / 12%);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:not([data-mode]),
+    &[data-mode='dark'] {
+      --task-color: #c4b5fd;
+      --task-bg: rgb(196 181 253 / 12%);
+    }
+  }
+}
+
+em.task {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--task-color);
+  background: var(--task-bg);
+  border-radius: 0.3em;
+  padding: 0.05em 0.2em;
+  white-space: nowrap;
+}
+
+/* Table and embed captions, matching Chirpy's image captions: a paragraph followed by {: .caption} */
+p.caption {
+  text-align: center;
+  font-size: 80%;
+  color: #6d6c6c;
+  margin-bottom: 0.75rem;
+}
